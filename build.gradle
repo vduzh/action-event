@@ -1,0 +1,60 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    alias(libs.plugins.springBoot)
+    alias(libs.plugins.springDependencyManagement)
+}
+
+// Disable bootJar for library
+bootJar {
+    enabled = false
+}
+
+// Remove plain classifier for jar
+jar {
+    archiveClassifier = ''
+}
+
+group = 'by.vduzh.action.event'
+version = '0.0.3-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:3.2.0'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = 'nexus'
+            url = "http://localhost:8081/repository/maven-snapshots/"
+            allowInsecureProtocol = true
+            credentials {
+                username = 'admin'
+                password = 'admin123'
+            }
+        }
+    }
+}

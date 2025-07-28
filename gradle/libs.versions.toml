@@ -1,0 +1,16 @@
+# gradle/libs.versions.toml
+[versions]
+mapstruct = "1.5.5.Final"
+springBoot = "3.5.3"
+springDependencyManagement = "1.1.7"
+springDocOpenapi = "2.5.0"
+
+[libraries]
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+springdoc-openapi = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springDocOpenapi" }
+
+[plugins]
+#lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
+springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
