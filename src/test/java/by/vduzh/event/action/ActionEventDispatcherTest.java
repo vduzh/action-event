@@ -1,5 +1,6 @@
 package by.vduzh.event.action;
 
+import by.vduzh.event.action.config.TestConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
