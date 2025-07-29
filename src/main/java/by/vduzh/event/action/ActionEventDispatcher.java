@@ -8,19 +8,20 @@ import java.util.List;
 @Component
 @Slf4j
 public class ActionEventDispatcher {
-    private final List<? extends ActionEventHandler<?, ?>> handlers;
+    private final List<? extends ActionEventHandler<?, ?, ?>> handlers;
 
-    public ActionEventDispatcher(List<? extends ActionEventHandler<?, ?>> handlers) {
+    public ActionEventDispatcher(List<? extends ActionEventHandler<?, ?, ?>> handlers) {
         this.handlers = handlers;
     }
 
     @SuppressWarnings("unchecked")
-    public void dispatch(ActionEvent<?> event) {
+    public void dispatch(ActionEvent<?, ?> event) {
         handlers.stream()
                 .filter(handler -> handler.supports(event.getAction()))
                 .findFirst()
                 .ifPresentOrElse(
-                        handler -> ((ActionEventHandler<Object, ActionEvent<Object>>) handler).handle((ActionEvent<Object>) event),
+                        handler -> ((ActionEventHandler<Object, Object, ActionEvent<Object, Object>>) handler)
+                                .handle((ActionEvent<Object, Object>) event),
                         () -> log.debug("There is no handler for action: {}", event.getAction())
                 );
     }

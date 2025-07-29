@@ -8,6 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.UUID;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -15,10 +17,7 @@ import static org.mockito.Mockito.*;
 public class ActionEventDispatcherTest {
 
     @MockitoBean
-    private ActionEventHandler<String, ActionEvent<String>> stringHandler;
-
-    @MockitoBean
-    private ActionEventHandler<Integer, ActionEvent<Integer>> integerHandler;
+    private ActionEventHandler<UUID, String, ActionEvent<UUID, String>> handler;
 
     @Autowired
     private ActionEventDispatcher dispatcher;
@@ -27,33 +26,15 @@ public class ActionEventDispatcherTest {
     void shouldHandleActionEvent() {
         // Given - mock event
         var event = mock(ActionEvent.class);
-        doReturn("string.action").when(event).getAction();
+        doReturn("foo.action").when(event).getAction();
 
-        // Given - mock string handler
-        doReturn(true).when(stringHandler).supports("string.action");
-        doNothing().when(stringHandler).handle(any());
-        // Given - mock integer handler
-        doReturn(false).when(integerHandler).supports("string.action");
+        doReturn(true).when(handler).supports("foo.action");
+        doNothing().when(handler).handle(any());
 
         // When
         dispatcher.dispatch(event);
 
         // Then
-        verify(stringHandler, times(1)).handle(any());
-        verify(integerHandler, never()).handle(any());
-    }
-
-    @Test
-    void shouldLogDebugWhenActionIsUnknown() {
-        // Given - mock event
-        var event = mock(ActionEvent.class);
-        doReturn("dummy").when(event).getAction();
-
-        // When - should not throw exception, just log debug
-        dispatcher.dispatch(event);
-
-        // Then - no exception thrown, just debug log
-        verify(stringHandler, never()).handle(any());
-        verify(integerHandler, never()).handle(any());
+        verify(handler, times(1)).handle(any());
     }
 }

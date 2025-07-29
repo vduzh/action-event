@@ -1,6 +1,6 @@
 package by.vduzh.event.action;
 
-public interface ActionEventHandler<T, E extends ActionEvent<T>> {
+public interface ActionEventHandler<K, T, E extends ActionEvent<K, T>> {
     boolean supports(String action);
 
     void handle(E event);
