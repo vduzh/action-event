@@ -15,7 +15,7 @@ jar {
     archiveClassifier = ''
 }
 
-group = 'by.vduzh.action.event'
+group = 'by.vduzh.actionevent'
 version = '0.1.0-SNAPSHOT'
 
 java {
